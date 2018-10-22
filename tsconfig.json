@@ -1,18 +1,24 @@
 {
     "compilerOptions": {
-        "module": "system",
+        "lib": [
+            "es6"
+        ],
+        "module": "commonjs",
+        "moduleResolution": "Node",
         "noImplicitAny": true,
-        "removeComments": true,
-        "preserveConstEnums": true,
         "outDir": "./build/",
+        "preserveConstEnums": true,
+        "removeComments": true,
         "rootDir": "./src",
-        "sourceMap": true
+        "sourceMap": true,
+        "types": [
+            "node"
+        ]
     },
     "include": [
         "src/**/*"
     ],
     "exclude": [
-        "node_modules",
         "**/*.spec.ts"
     ]
 }
