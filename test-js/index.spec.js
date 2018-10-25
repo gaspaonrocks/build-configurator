@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import 'mocha';
-import Configurator from '../src';
+import Configurator from '../src-js';
 
 describe('Configurator', () => {
     it('getConfig should be a function', () => {

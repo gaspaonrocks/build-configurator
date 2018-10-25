@@ -1,11 +1,16 @@
 import { mergeDeepRight, reduce } from 'ramda';
 import * as webpack from 'webpack';
 
+// import ConfigInterface from './interfaces/config';
+import commonConfig from './models/common';
+
 class Configurator {
     constructor(
         private config?: object
     ) {
-        this.config = {};
+        this.config = {
+            entry: [], output: '', module: {}, plugins: []
+        };
     }
 
     /**
@@ -14,7 +19,7 @@ class Configurator {
      * @returns {object} the final config object
      */
     getConfig(type?: string): object {
-        //const { entry, module, output, plugins } = this.config;
+        const { entry, module, output, plugins } = this.config;
         //if (!entry || !module || !output || !plugins) this.setConfig(type);
 
         this.config = {
@@ -41,25 +46,21 @@ class Configurator {
      * @param {string} type the type of repo that the config is targeted to
      * @returns {undefined} styore the config object in this.config
      */
-    /* setConfig(type: string): void {
-        const { commonConfig, fragmentConfig, multiRepoConfig, optimization } = configs;
-
-        const configReducer = configsArray => reduce(mergeDeepRight, this.config, configsArray);
-
+    setConfig(type: string): void {
         switch (type) {
             case LIB_CONFIG_TYPE:
-                this.config = configReducer([commonConfig(), multiRepoConfig]);
+                this.config = this.configReducer([commonConfig]);
                 break;
             case APP_CONFIG_TYPE:
-                this.config = configReducer([commonConfig(), optimization]);
+                this.config = this.configReducer([commonConfig(), optimization]);
                 break;
             case FRAGMENT_CONFIG_TYPE:
-                this.config = configReducer([commonConfig(), fragmentConfig]);
+                this.config = this.configReducer([commonConfig(), fragmentConfig]);
                 break;
             default:
                 this.config = {};
         }
-    } */
+    }
 
     /**
      * @description addConfig
@@ -93,6 +94,7 @@ class Configurator {
      */
     runConfig(args: Array<string>): void {
         const { error, log, warn } = console;
+
         warn('in runConfig', args);
 
         webpack(this.getConfig(), (err, stats) => {

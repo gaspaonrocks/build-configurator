@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "./node_modules/.bin/tsc",
-    "test": "mocha -r ts-node/register test/**/*.spec.ts",
+    "test:ts": "mocha -r ts-node/register test-ts/**/*.spec.ts",
+    "test:js": "mocha --require @babel/register test-js/**/*.spec.js",
     "cover": "nyc npm run test"
   },
   "repository": {
@@ -29,6 +30,11 @@
     "webpack": "^4.22.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.1.2",
+    "@babel/node": "^7.0.0",
+    "@babel/polyfill": "^7.0.0",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/register": "^7.0.0",
     "@types/chai": "^4.1.0",
     "@types/mocha": "^2.2.46",
     "chai": "^4.1.2",
