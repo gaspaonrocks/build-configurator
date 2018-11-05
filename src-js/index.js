@@ -1,11 +1,16 @@
 import { mergeDeepRight, reduce } from 'ramda';
 import webpack from 'webpack';
 
-import commonConfig from './models/common';
+import configList from './models';
 
 class Configurator {
     constructor() {
         this.config = {};
+    }
+
+    configNotSet() {
+        const { entry, module, output, plugins } = this.config;
+        return !entry || !module || !output || !plugins;
     }
 
     /**
@@ -13,8 +18,7 @@ class Configurator {
      * @returns {object} the final config object
      */
     getConfig() {
-        const { entry, module, output, plugins } = this.config;
-        if (!entry || !module || !output || !plugins) this.setConfig();
+        if (this.configNotSet()) this.setConfig();
 
         return this.config;
     }
@@ -33,7 +37,8 @@ class Configurator {
      * @returns {undefined} store the config object in this.config
      */
     setConfig() {
-        this.config = this.configReducer([commonConfig]);
+        const { common } = configList;
+        this.config = this.configReducer([common]);
     }
 
     /**
@@ -80,7 +85,10 @@ class Configurator {
     }
 
     plug(key) {
-        if (!Array.isArray(key)) {/* this.config = this.configReducer([configList[key]]) */ }
+        if (!Array.isArray(key)) {
+            if (this.configNotSet()) this.setConfig();
+            this.config = this.configReducer([configList[key]]);
+        }
         else if (Array.isArray(key)) {/* functionnal method to iterate on key */ }
 
         return this;

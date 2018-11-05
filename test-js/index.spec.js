@@ -12,4 +12,11 @@ describe('Configurator', () => {
 
         expect(typeof expected, 'object');
     });
+
+    it('should return a config object with splitChunks key', () => {
+        const expected = Configurator.plug('optimization').getConfig();
+
+        expect(typeof expected, 'object');
+        expect(expected.splitChunks).to.not.be.undefined;
+    })
 });
